@@ -18,6 +18,10 @@ app.get("/", function(req, res) {
 	res.sendFile(path.join(__dirname + "/index.html"));
 });
 
+app.get("/wall", function(req, res){
+	res.sendFile(path.join(__dirname + "/wall.html"));
+});
+
 // Makes public a static directory
 app.use(express.static(process.cwd() + '/public'));
 
