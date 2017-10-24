@@ -4,6 +4,22 @@ $(document).ready(function() {
 	//request the existing notes,
 	//and add them to the page.
 	loadNotes();
+
+	$("#addNote").on("click", function(e) {
+		e.preventDefault();
+		var newNote = {
+			name : $("#name").val().trim(),
+			msg : $("#msg").val().trim()
+		};
+		console.log(newNote.name);
+		console.log(newNote.msg);
+
+		$.post('/note', newNote, function(data, textStatus, xhr) {
+			/*optional stuff to do after success */
+			$("#new-note-form").hide();
+			loadNotes();
+		});
+	});
 });
 
 function loadNotes() {

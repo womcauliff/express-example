@@ -39,6 +39,19 @@ app.get("/note", function(req, res) {
 	res.json(notes);
 });
 
+app.post("/note", function(req, res) {
+
+	console.log("New Note From Client:\n" + JSON.stringify(req.body));
+
+	notes.push(req.body);
+	console.log("All Notes:\n" + JSON.stringify(notes));
+
+	res.status(200).json({
+		error : false,
+		msg : "Success."
+	});
+});
+
 // Makes public a static directory
 app.use(express.static(process.cwd() + '/public'));
 
