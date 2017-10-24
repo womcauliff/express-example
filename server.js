@@ -22,6 +22,23 @@ app.get("/wall", function(req, res){
 	res.sendFile(path.join(__dirname + "/wall.html"));
 });
 
+//api routes
+
+var notes = [
+	{
+		"name" : "dan",
+		"msg" : "wassup"
+	},
+	{
+		"name" : "glen",
+		"msg" : "hi will!"
+	}
+];
+
+app.get("/note", function(req, res) {
+	res.json(notes);
+});
+
 // Makes public a static directory
 app.use(express.static(process.cwd() + '/public'));
 
