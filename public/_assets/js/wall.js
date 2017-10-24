@@ -5,8 +5,15 @@ $(document).ready(function() {
 	//and add them to the page.
 	loadNotes();
 
+	//When user clicks Submit button
 	$("#addNote").on("click", function(e) {
+
+		//prevent page refresh
 		e.preventDefault();
+
+		//Construct a Note object,
+		//instantiating the Object's properties using
+		//the user's input from the form
 		var newNote = {
 			name : $("#name").val().trim(),
 			msg : $("#msg").val().trim()
@@ -14,12 +21,36 @@ $(document).ready(function() {
 		console.log(newNote.name);
 		console.log(newNote.msg);
 
+		//Client-side Validation
+		//Verify that none of the required values are left blank.
+		if(newNote.name === undefined || newNote.name === "") {
+			alert("Name cannot be left empty.");
+			return false;
+		}
+		else if(newNote.msg === undefined || newNote.msg === "") {
+			alert("Note cannot be left empty.");
+			return false;
+		}
+
+		//Use AJAX to make a POST request to the API route
+		//sending the Note object in the body of the request.
 		$.post('/note', newNote, function(data, textStatus, xhr) {
-			/*optional stuff to do after success */
-			$("#new-note-form").hide();
-			loadNotes();
+			console.log(data);
+			console.log(textStatus);
+
+			if(data.error === true) {
+				//server-side error
+				//display message to user
+			}
+			else {
+				//success
+				$("#new-note-form").hide();
+				loadNotes();
+			}
 		});
-	});
+
+	});//end on-click
+
 });
 
 function loadNotes() {
