@@ -43,13 +43,41 @@ app.post("/note", function(req, res) {
 
 	console.log("New Note From Client:\n" + JSON.stringify(req.body));
 
-	notes.push(req.body);
-	console.log("All Notes:\n" + JSON.stringify(notes));
+	//Verify that Note sent in Client's POST request has a name
+	if(req.body.name === undefined || req.body.name === "") {
 
-	res.status(200).json({
-		error : false,
-		msg : "Success."
-	});
+		console.error("error:\n" + JSON.stringify(req.body));
+
+		//Send error message back to Client, ignoring the Client's Note object
+		res.status(400).json({
+			error : true,
+			msg : "Missing 'name' field"
+		});
+	}
+	//Verify that Note sent in Client's POST request has a message body
+	else if(req.body.msg === undefined || req.body.msg === "") {
+
+		console.error("error:\n" + JSON.stringify(req.body));
+
+		//Send error message back to Client, ignoring the Client's Note object
+		res.status(400).json({
+			error : true,
+			msg : "Missing 'msg' field."
+		});
+	}
+	// The new Note sent in Client's POST request is valid
+	else {
+
+		// Add the new Note to existing notes array
+		notes.push(req.body);
+		console.log("All Notes:\n" + JSON.stringify(notes));
+
+		// Send a success JSON in response
+		res.status(200).json({
+			error : false,
+			msg : "Success."
+		});
+	}
 });
 
 // Makes public a static directory
